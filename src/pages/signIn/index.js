@@ -1,12 +1,16 @@
-import {Link} from 'react-router-dom';
+import { Container, Form, Input, Button } from "./styles";
 
 
 function SignIn() {
     return(
-        <>
+        <Container>
+            <Form>
+                <Input type="email" placeholder="E-mail" required></Input>
+                <Input type="password" placeholder="Senha" required></Input>
+                <Button>Entrar</Button>
+            </Form>
             
-            <Link to="/">It para a página Home</Link>
-        </>
+        </Container>
     )
 }
 
