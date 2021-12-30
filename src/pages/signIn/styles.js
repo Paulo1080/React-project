@@ -29,6 +29,7 @@ export const Input =styled.input`
     margin-bottom: 20px;
     border: 2px solid var(--color-primary);  
     color: var(--color-gray);
+    background-color: var(--color-background);
 
 `;
 

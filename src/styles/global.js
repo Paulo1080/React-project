@@ -23,9 +23,14 @@ export const GlobalStyle = createGlobalStyle`
         --color-gradient-hover: linear-gradient(155.34deg,#bf00b5 -0.59%, #8257e6 80%);
         --color-white: #fff;
         --color-gray: #5f5f5f;
+        --color-background: #121214;
 
         /*Styles*/
         --border-radius: 8px;
+    }
+
+    body {
+        background-color: var(--color-background);
     }
 
 `
