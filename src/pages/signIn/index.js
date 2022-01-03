@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { ToastContainer } from 'react-toastify';
 import { Container, Form, Input, Button } from "./styles";
 import api from '../../services/api';
 import SigninValidation from "../../utils/validation/SigninValidation";
+import Message from '../../components/Message'
 
 function SignIn() {
     const [email, setEmail] = useState('');
@@ -15,13 +17,13 @@ function SignIn() {
         if(validation){
             await api.post('/user', data)
         .then( response => {
-            console.log(response);
+            Message(response);
         })
         .catch(error => {
-            console.log(error);
+            Message("Erro ao tantar fazer login");
         })
         }else {
-            alert("Preencha um email válido e uma senha de no mínimo 6 caracteres!!")
+            Message("Preencha um email válido e uma senha de no mínimo 6 caracteres!!", "error")
         }
 
         
@@ -30,6 +32,7 @@ function SignIn() {
     return(
         <Container>
             <Form>
+                <ToastContainer/>
                 <Input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required></Input>
                 <Input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value) } required></Input>
                 <Button onClick={HandleSubmit}>Entrar</Button>
