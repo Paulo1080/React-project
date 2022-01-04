@@ -50,3 +50,13 @@ export const Button =styled.button`
     }
 
 `;
+
+export const Image = styled.img `
+    width: 100px;
+    margin: 30px auto;
+    cursor: pointer;
+    border-radius: 50px;
+
+
+
+`
