@@ -1,13 +1,27 @@
 import { useState } from "react";
 import { ToastContainer } from 'react-toastify';
+import Lottie from 'react-lottie';
+
 import { Container, Form, Input, Button } from "./styles";
 import api from '../../services/api';
 import SigninValidation from "../../utils/validation/SigninValidation";
 import Message from '../../components/Message'
 
+import * as animationData from './pinjump.json'
+
 function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
     async function HandleSubmit() {
         const data = { email, password };
@@ -35,9 +49,22 @@ function SignIn() {
                 <ToastContainer/>
                 <Input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required></Input>
                 <Input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value) } required></Input>
-                <Button onClick={HandleSubmit}>Entrar</Button>
-            </Form>
-            
+                <Button 
+                    onClick={HandleSubmit}
+                >
+                    { loading ?
+                            <Lottie options={ defaultOptions }
+                                height = {400}
+                                width = {400}
+                                isStopped = {this.state.isStopped}
+                                isPaused = {this.state.isPaused}
+                            />
+                        :
+
+                            "Entrar"
+                        }
+                </Button>
+            </Form>            
         </Container>
     )
 }
