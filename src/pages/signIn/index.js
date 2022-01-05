@@ -7,13 +7,14 @@ import {
     Form, 
     Input, 
     Button,
-    Image
+    Image,
+    Animation
 } from "./styles";
 import api from '../../services/api';
 import SigninValidation from "../../utils/validation/SigninValidation";
 import Message from '../../components/Message'
 
-import * as animationData from '../../assets/animations/9953-loading-round.json'
+import * as animationData from '../../assets/animations/loading.json'
 import Logo from '../../assets/images/logo.png'
 
 function SignIn() {
@@ -40,15 +41,22 @@ function SignIn() {
             await api.post('/user', data)
         .then( response => {
             Message(response);
-            setLoading(false);
+            setTimeout(()=>{
+                setLoading(false);
+            }, 2000);
         })
         .catch(error => {
             Message("Erro ao tantar fazer login");
-            setLoading(false);
+            setTimeout(()=>{
+                setLoading(false);
+            }, 2000);
         })
         }else {
-            Message("Preencha um email válido e uma senha de no mínimo 6 caracteres!!", "error")
-            setLoading(false);
+            Message("Preencha um email válido e uma senha de no mínimo 6 caracteres!!")
+            setTimeout(()=>{
+                setLoading(false);
+            }, 2000);
+                
         }
 
         
@@ -65,11 +73,9 @@ function SignIn() {
                     onClick={HandleSubmit}
                 >
                     { loading ?
-                            <Lottie options={ defaultOptions }
-                                height = {40}
-                                width = {40}
-                                
-                            />
+                        <Animation>
+                            <Lottie options={ defaultOptions } />
+                        </Animation> 
                         :
 
                             "Entrar"

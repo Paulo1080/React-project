@@ -57,6 +57,11 @@ export const Image = styled.img `
     cursor: pointer;
     border-radius: 50px;
 
+`;
 
-
+export const Animation = styled.div`
+    width: 37%;
+    height: 34px;
+    margin: auto;
 `
+
