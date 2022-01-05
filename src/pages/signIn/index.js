@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import Lottie from 'react-lottie';
 
@@ -8,7 +8,10 @@ import {
     Input, 
     Button,
     Image,
-    Animation
+    Animation,
+    Signup,
+    Span,
+    ForgotPassword
 } from "./styles";
 import api from '../../services/api';
 import SigninValidation from "../../utils/validation/SigninValidation";
@@ -40,9 +43,12 @@ function SignIn() {
         if(validation){
             await api.post('/user', data)
         .then( response => {
+            localStorage.setItem("over_name", response.data.user.name)
+            localStorage.setItem("over_token", response.data.token)
             Message(response);
             setTimeout(()=>{
                 setLoading(false);
+                handleAuthenticated();
             }, 2000);
         })
         .catch(error => {
@@ -62,13 +68,40 @@ function SignIn() {
         
     }
 
+    async function handleAuthenticated(){
+        let token = await localStorage.getItem("over_token");
+
+        if(token){
+            window.location = "/";
+        }
+    }
+
+    useEffect(()=>{
+        handleAuthenticated()
+    }, [])
+
     return(
         <Container>
             <Form>
                 <ToastContainer/>
-                <Image src={Logo} alt="Logo Genérico" />
-                <Input type="email" placeholder="E-mail" onChange={(e) => setEmail(e.target.value)} required></Input>
-                <Input type="password" placeholder="Senha" onChange={(e) => setPassword(e.target.value) } required></Input>
+                <Image 
+                    src={Logo} 
+                    alt="Logo Genérico" />
+                <Input
+                    type="email" 
+                    placeholder="E-mail" 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    required
+                />
+                <Input 
+                    type="password" 
+                    placeholder="Senha" 
+                    onChange={(e) => setPassword(e.target.value) } 
+                    required
+                />
+                <ForgotPassword href="/forgot-password">
+                    Esqueceu sua senha?
+                </ForgotPassword>
                 <Button 
                     onClick={HandleSubmit}
                 >
@@ -81,6 +114,7 @@ function SignIn() {
                             "Entrar"
                         }
                 </Button>
+                <Signup href="/signup">Ainda não tem cadastro? <Span>Cadastra-se</Span></Signup>
             </Form>            
         </Container>
     )

@@ -55,7 +55,8 @@ export const Image = styled.img `
     width: 100px;
     margin: 30px auto;
     cursor: pointer;
-    border-radius: 50px;
+    
+    
 
 `;
 
@@ -64,4 +65,30 @@ export const Animation = styled.div`
     height: 34px;
     margin: auto;
 `
+export const Signup = styled.a`
+    margin: 20px auto;
+    text-align: center;
+    max-width: 200px;
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 25px;
+`
 
+export const Span = styled.span`
+    
+    color: var(--color-white);
+    text-decoration: underline;
+`
+
+export const ForgotPassword = styled.a`
+    
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 25px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+
+`
