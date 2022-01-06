@@ -9,16 +9,19 @@ import {
     Button,
     Image,
     Animation,
-    Signup,
+    SignIn,
     Span,
-    ForgotPassword,
-    Title
+    Title,
+    AnimationContainer,
+    TitleAnimation,
+    RedirectLogin
 } from "./styles";
 import api from '../../services/api';
 import SignUpValidation from "../../utils/validation/SignUpValidation";
 import Message from '../../components/Message'
 
 import * as animationData from '../../assets/animations/loading.json'
+import successAnimation from '../../assets/animations/75779-check.json'
 import Logo from '../../assets/images/logo.png'
 
 function SignUp() {
@@ -29,10 +32,19 @@ function SignUp() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
-    const defaultOptions = {
+    const optionsLoading = {
         loop: true,
         autoplay: true,
         animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
+    const optionsSuccess = {
+        loop: true,
+        autoplay: true,
+        animationData: successAnimation,
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid slice'
         }
@@ -43,9 +55,17 @@ function SignUp() {
         const data = { name, email, phone, password };
 
         try {
-            let validation = await SignUpValidation(data);
+            await SignUpValidation(data);
+            handleRequest(data);          
+        } catch (err) {
+            Message(err.errors[0]);
+            setLoading(false);
+        }
 
-            await api.post('/signup', data)
+    }
+
+    async function handleRequest(data) {
+        await api.post('/user', data)
             .then( response => {
                 Message(response.data.message);
                 setTimeout(() => {
@@ -59,37 +79,6 @@ function SignUp() {
                     setLoading(false);
                 }, 2000);
             })
-
-        } catch (err) {
-            Message(err.errors[0]);
-            setLoading(false);
-        }
-
-        /*
-        if(validation){
-            await api.post('/signup', data)
-        .then( response => {
-            Message(response.data.message);
-            setTimeout(()=>{
-                setLoading(false);
-                setSuccess(true);
-            }, 2000);
-        })
-        .catch(error => {
-            Message("Erro ao tantar fazer login");
-            setTimeout(()=>{
-                setLoading(false);
-            }, 2000);
-        })
-        }else {
-            Message("Preencha um email válido e uma senha de no mínimo 6 caracteres!!")
-            setTimeout(()=>{
-                setLoading(false);
-            }, 2000);
-                
-        }
-        */
-
     }
 
     async function handleAuthenticated() {
@@ -110,8 +99,11 @@ function SignUp() {
 
 
                 success ?
-
-                    <h1>Deu certo</h1>
+                    <AnimationContainer>
+                        <TitleAnimation>Deu certo</TitleAnimation>
+                        <RedirectLogin href="/signin">Ir para o Login</RedirectLogin>
+                        <Lottie options={optionsSuccess} />
+                    </AnimationContainer>
 
                     :
 
@@ -146,22 +138,20 @@ function SignUp() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <ForgotPassword href="/forgot-password">
-                            Esqueceu sua senha?
-                        </ForgotPassword>
+                       
                         <Button
                             onClick={HandleSubmit}
                         >
                             {loading ?
                                 <Animation>
-                                    <Lottie options={defaultOptions} />
+                                    <Lottie options={optionsLoading} />
                                 </Animation>
                                 :
 
                                 "Entrar"
                             }
                         </Button>
-                        <Signup href="/signup">Ainda não tem cadastro? <Span>Cadastra-se</Span></Signup>
+                        <SignIn href="/signin">Já tem cadastro? <Span>Clique aqui!</Span></SignIn>
                     </Form>
             }
         </Container>
