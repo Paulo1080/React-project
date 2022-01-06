@@ -15,6 +15,10 @@ export const GlobalStyle = createGlobalStyle`
         outline: none;
     }
 
+    a{
+        text-decoration: none;
+    }
+
     :root {
 
         /*Colors*/

@@ -1,11 +1,11 @@
-import {Link} from 'react-router-dom';
+import Header from '../../components/Header';
 import  { Container } from './styles';
 
 function Home() {
     return(
         <Container>
+            <Header />
             
-            <Link to="/signin">Ir para a página de Login</Link>
         </Container>
     )
 }
